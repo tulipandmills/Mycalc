@@ -199,11 +199,10 @@ function adjustTime(direction) {
         month: 'long',
         day: 'numeric',
         hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
+        minute: '2-digit'
     };
 
-    const formattedResult = resultDate.toLocaleDateString('en-US', options);
+    const formattedResult = resultDate.toLocaleString('en-US', options);
 
     // Calculate differences from original
     const diffMs = resultDate - startDate;
