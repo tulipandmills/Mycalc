@@ -150,12 +150,18 @@ button:active {
 }
 
 input[type="datetime-local"],
-input[type="number"] {
+input[type="number"],
+select {
     padding: 10px;
     border: 2px solid #e0e0e0;
     border-radius: 8px;
     font-size: 16px;
     width: 100%;
+}
+
+select {
+    cursor: pointer;
+    background: white;
 }
 
 .time-operations {
@@ -167,26 +173,44 @@ input[type="number"] {
     gap: 10px;
 }
 
-.time-row {
+.time-adjust-row {
     display: grid;
-    grid-template-columns: 80px 1fr auto auto;
+    grid-template-columns: 1fr 1.5fr;
     gap: 10px;
     align-items: center;
 }
 
-.time-row label {
-    margin: 0;
+.time-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 5px;
 }
 
-.btn-time {
-    padding: 10px 15px;
-    background: #667eea;
-    color: white;
+.btn-earlier,
+.btn-later {
+    padding: 15px;
     font-size: 16px;
+    border-radius: 10px;
+    font-weight: 600;
 }
 
-.btn-time:hover {
-    background: #5568d3;
+.btn-earlier {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-earlier:hover {
+    background: #c82333;
+}
+
+.btn-later {
+    background: #28a745;
+    color: white;
+}
+
+.btn-later:hover {
+    background: #218838;
 }
 
 .btn-calculate,
@@ -258,8 +282,8 @@ input[type="number"] {
         padding: 15px;
     }
 
-    .time-row {
-        grid-template-columns: 70px 1fr auto auto;
-        gap: 5px;
+    .time-adjust-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
     }
 }

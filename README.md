@@ -14,10 +14,11 @@ A modern, web-based calculator with two main features:
 - Clean, intuitive interface
 
 ### Time Calculator
-- Add or subtract days, hours, and minutes to/from any date and time
+- Add or subtract time units using Earlier/Later buttons
+- Flexible unit selection: minutes, hours, days, weeks, months, years
 - "Use Current Time" button for quick access to the current date/time
+- Simple value input with unit selector
 - Visual display of the calculated result
-- Shows the time difference in a readable format
 
 ## How to Use
 
@@ -38,9 +39,10 @@ A modern, web-based calculator with two main features:
 ### Time Calculator
 1. Switch to the "Time Calculator" tab
 2. Click "Use Current Time" or manually select a start date and time
-3. Enter or use +/- buttons to adjust days, hours, and minutes
-4. Click "Calculate" to see the result
-5. The result shows the final date/time and the total difference
+3. Enter a value and select a unit (minutes, hours, days, weeks, months, years)
+4. Click "Later" to add time or "Earlier" to subtract time
+5. The result shows the new date/time and updates the start time
+6. You can continue clicking Earlier/Later to keep adjusting
 
 ## Examples
 
@@ -50,9 +52,11 @@ A modern, web-based calculator with two main features:
 - 3.14 * 2 = 6.28
 
 **Time Calculations:**
-- Current time + 1 day = Tomorrow at the same time
-- January 1, 2025 10:00 AM + 5 days, 3 hours = January 6, 2025 1:00 PM
-- Meeting at 2:00 PM - 45 minutes = 1:15 PM
+- Current time + 1 day (Later) = Tomorrow at the same time
+- January 1, 2025 10:00 AM + 5 days (Later) = January 6, 2025 10:00 AM
+- January 1, 2025 + 2 weeks (Later) = January 15, 2025
+- Meeting at 2:00 PM - 45 minutes (Earlier) = 1:15 PM
+- Current date + 6 months (Later) = Six months from now
 
 ## Technical Details
 

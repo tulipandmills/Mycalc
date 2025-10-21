@@ -143,13 +143,7 @@ function setCurrentTime() {
     document.getElementById('start-datetime').value = dateTimeString;
 }
 
-function modifyTime(unit, change) {
-    const input = document.getElementById(`${unit}-input`);
-    const currentVal = parseInt(input.value) || 0;
-    input.value = currentVal + change;
-}
-
-function calculateTime() {
+function adjustTime(direction) {
     const startDatetime = document.getElementById('start-datetime').value;
 
     if (!startDatetime) {
@@ -157,18 +151,48 @@ function calculateTime() {
         return;
     }
 
+    const value = parseInt(document.getElementById('time-value').value) || 1;
+    const unit = document.getElementById('time-unit').value;
+
     const startDate = new Date(startDatetime);
-    const days = parseInt(document.getElementById('days-input').value) || 0;
-    const hours = parseInt(document.getElementById('hours-input').value) || 0;
-    const minutes = parseInt(document.getElementById('minutes-input').value) || 0;
-
-    // Calculate new date
     const resultDate = new Date(startDate);
-    resultDate.setDate(resultDate.getDate() + days);
-    resultDate.setHours(resultDate.getHours() + hours);
-    resultDate.setMinutes(resultDate.getMinutes() + minutes);
 
-    // Format the result
+    // Determine multiplier based on direction
+    const multiplier = direction === 'later' ? 1 : -1;
+    const adjustValue = value * multiplier;
+
+    // Adjust based on unit
+    switch (unit) {
+        case 'minutes':
+            resultDate.setMinutes(resultDate.getMinutes() + adjustValue);
+            break;
+        case 'hours':
+            resultDate.setHours(resultDate.getHours() + adjustValue);
+            break;
+        case 'days':
+            resultDate.setDate(resultDate.getDate() + adjustValue);
+            break;
+        case 'weeks':
+            resultDate.setDate(resultDate.getDate() + (adjustValue * 7));
+            break;
+        case 'months':
+            resultDate.setMonth(resultDate.getMonth() + adjustValue);
+            break;
+        case 'years':
+            resultDate.setFullYear(resultDate.getFullYear() + adjustValue);
+            break;
+    }
+
+    // Update the start datetime input with the new result
+    const year = resultDate.getFullYear();
+    const month = String(resultDate.getMonth() + 1).padStart(2, '0');
+    const day = String(resultDate.getDate()).padStart(2, '0');
+    const hours = String(resultDate.getHours()).padStart(2, '0');
+    const minutes = String(resultDate.getMinutes()).padStart(2, '0');
+    const dateTimeString = `${year}-${month}-${day}T${hours}:${minutes}`;
+    document.getElementById('start-datetime').value = dateTimeString;
+
+    // Format the result for display
     const options = {
         weekday: 'long',
         year: 'numeric',
@@ -181,18 +205,15 @@ function calculateTime() {
 
     const formattedResult = resultDate.toLocaleDateString('en-US', options);
 
-    // Calculate differences
+    // Calculate differences from original
     const diffMs = resultDate - startDate;
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+    const absDiffMs = Math.abs(diffMs);
+    const diffDays = Math.floor(absDiffMs / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor((absDiffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const diffMinutes = Math.floor((absDiffMs % (1000 * 60 * 60)) / (1000 * 60));
 
-    let diffText = '';
-    if (diffMs >= 0) {
-        diffText = `(+${diffDays} days, ${diffHours} hours, ${diffMinutes} minutes)`;
-    } else {
-        diffText = `(${diffDays} days, ${diffHours} hours, ${diffMinutes} minutes)`;
-    }
+    const directionText = direction === 'later' ? '+' : '-';
+    const diffText = `(${directionText}${value} ${unit})`;
 
     document.getElementById('time-result-display').innerHTML = `
         <strong>${formattedResult}</strong>

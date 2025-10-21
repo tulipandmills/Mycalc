@@ -52,36 +52,30 @@
             <div class="time-input-section">
                 <label>Start Date & Time:</label>
                 <input type="datetime-local" id="start-datetime">
+                <button onclick="setCurrentTime()" class="btn-current">Use Current Time</button>
 
                 <div class="time-operations">
-                    <div class="time-row">
-                        <label>Days:</label>
-                        <input type="number" id="days-input" value="0">
-                        <button onclick="modifyTime('days', 1)" class="btn-time">+</button>
-                        <button onclick="modifyTime('days', -1)" class="btn-time">-</button>
+                    <label>Adjust Time:</label>
+                    <div class="time-adjust-row">
+                        <input type="number" id="time-value" value="1" min="1">
+                        <select id="time-unit">
+                            <option value="minutes">Minutes</option>
+                            <option value="hours">Hours</option>
+                            <option value="days" selected>Days</option>
+                            <option value="weeks">Weeks</option>
+                            <option value="months">Months</option>
+                            <option value="years">Years</option>
+                        </select>
                     </div>
-
-                    <div class="time-row">
-                        <label>Hours:</label>
-                        <input type="number" id="hours-input" value="0">
-                        <button onclick="modifyTime('hours', 1)" class="btn-time">+</button>
-                        <button onclick="modifyTime('hours', -1)" class="btn-time">-</button>
-                    </div>
-
-                    <div class="time-row">
-                        <label>Minutes:</label>
-                        <input type="number" id="minutes-input" value="0">
-                        <button onclick="modifyTime('minutes', 1)" class="btn-time">+</button>
-                        <button onclick="modifyTime('minutes', -1)" class="btn-time">-</button>
+                    <div class="time-buttons">
+                        <button onclick="adjustTime('earlier')" class="btn-earlier">Earlier</button>
+                        <button onclick="adjustTime('later')" class="btn-later">Later</button>
                     </div>
                 </div>
 
-                <button onclick="calculateTime()" class="btn-calculate">Calculate</button>
-                <button onclick="setCurrentTime()" class="btn-current">Use Current Time</button>
-
                 <div class="time-result">
                     <label>Result:</label>
-                    <div id="time-result-display">Select a start time and add/subtract time units</div>
+                    <div id="time-result-display">Select a start time and use Earlier/Later buttons</div>
                 </div>
             </div>
         </div>
