@@ -1,0 +1,265 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    max-width: 450px;
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+/* Tab Navigation */
+.tab-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: #f0f0f0;
+    color: #666;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+    background: #e0e0e0;
+}
+
+.tab-button.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+/* Calculator Sections */
+.calculator-section {
+    display: none;
+}
+
+.calculator-section.active {
+    display: block;
+}
+
+/* Basic Calculator */
+.display {
+    margin-bottom: 20px;
+}
+
+#display {
+    width: 100%;
+    padding: 20px;
+    font-size: 32px;
+    text-align: right;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    background: #f9f9f9;
+    font-family: 'Courier New', monospace;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+button {
+    padding: 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 600;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.btn-number {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.btn-number:hover {
+    background: #e0e0e0;
+}
+
+.btn-operator {
+    background: #ff9500;
+    color: white;
+}
+
+.btn-operator:hover {
+    background: #e68600;
+}
+
+.btn-equals {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-equals:hover {
+    background: linear-gradient(135deg, #5568d3 0%, #63408b 100%);
+}
+
+/* Time Calculator */
+.time-input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.time-input-section label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+input[type="datetime-local"],
+input[type="number"] {
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.time-operations {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.time-row {
+    display: grid;
+    grid-template-columns: 80px 1fr auto auto;
+    gap: 10px;
+    align-items: center;
+}
+
+.time-row label {
+    margin: 0;
+}
+
+.btn-time {
+    padding: 10px 15px;
+    background: #667eea;
+    color: white;
+    font-size: 16px;
+}
+
+.btn-time:hover {
+    background: #5568d3;
+}
+
+.btn-calculate,
+.btn-current {
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.btn-calculate {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-calculate:hover {
+    background: linear-gradient(135deg, #5568d3 0%, #63408b 100%);
+}
+
+.btn-current {
+    background: #ff9500;
+    color: white;
+}
+
+.btn-current:hover {
+    background: #e68600;
+}
+
+.time-result {
+    background: #f0f0f0;
+    padding: 15px;
+    border-radius: 10px;
+    min-height: 80px;
+}
+
+#time-result-display {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+}
+
+#time-result-display strong {
+    color: #667eea;
+    font-size: 18px;
+}
+
+#time-result-display small {
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    button {
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    #display {
+        font-size: 24px;
+        padding: 15px;
+    }
+
+    .time-row {
+        grid-template-columns: 70px 1fr auto auto;
+        gap: 5px;
+    }
+}

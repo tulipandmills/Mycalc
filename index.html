@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator - Math & Time</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Calculator</h1>
+
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <button class="tab-button active" onclick="switchTab('basic')">Basic Math</button>
+            <button class="tab-button" onclick="switchTab('time')">Time Calculator</button>
+        </div>
+
+        <!-- Basic Calculator -->
+        <div id="basic-calc" class="calculator-section active">
+            <div class="display">
+                <input type="text" id="display" readonly value="0">
+            </div>
+            <div class="buttons">
+                <button onclick="clearDisplay()" class="btn-operator">C</button>
+                <button onclick="deleteLast()" class="btn-operator">⌫</button>
+                <button onclick="appendOperator('/')" class="btn-operator">/</button>
+                <button onclick="appendOperator('*')" class="btn-operator">×</button>
+
+                <button onclick="appendNumber('7')" class="btn-number">7</button>
+                <button onclick="appendNumber('8')" class="btn-number">8</button>
+                <button onclick="appendNumber('9')" class="btn-number">9</button>
+                <button onclick="appendOperator('-')" class="btn-operator">-</button>
+
+                <button onclick="appendNumber('4')" class="btn-number">4</button>
+                <button onclick="appendNumber('5')" class="btn-number">5</button>
+                <button onclick="appendNumber('6')" class="btn-number">6</button>
+                <button onclick="appendOperator('+')" class="btn-operator">+</button>
+
+                <button onclick="appendNumber('1')" class="btn-number">1</button>
+                <button onclick="appendNumber('2')" class="btn-number">2</button>
+                <button onclick="appendNumber('3')" class="btn-number">3</button>
+                <button onclick="calculate()" class="btn-equals" style="grid-row: span 2">=</button>
+
+                <button onclick="appendNumber('0')" class="btn-number" style="grid-column: span 2">0</button>
+                <button onclick="appendNumber('.')" class="btn-number">.</button>
+            </div>
+        </div>
+
+        <!-- Time Calculator -->
+        <div id="time-calc" class="calculator-section">
+            <div class="time-input-section">
+                <label>Start Date & Time:</label>
+                <input type="datetime-local" id="start-datetime">
+
+                <div class="time-operations">
+                    <div class="time-row">
+                        <label>Days:</label>
+                        <input type="number" id="days-input" value="0">
+                        <button onclick="modifyTime('days', 1)" class="btn-time">+</button>
+                        <button onclick="modifyTime('days', -1)" class="btn-time">-</button>
+                    </div>
+
+                    <div class="time-row">
+                        <label>Hours:</label>
+                        <input type="number" id="hours-input" value="0">
+                        <button onclick="modifyTime('hours', 1)" class="btn-time">+</button>
+                        <button onclick="modifyTime('hours', -1)" class="btn-time">-</button>
+                    </div>
+
+                    <div class="time-row">
+                        <label>Minutes:</label>
+                        <input type="number" id="minutes-input" value="0">
+                        <button onclick="modifyTime('minutes', 1)" class="btn-time">+</button>
+                        <button onclick="modifyTime('minutes', -1)" class="btn-time">-</button>
+                    </div>
+                </div>
+
+                <button onclick="calculateTime()" class="btn-calculate">Calculate</button>
+                <button onclick="setCurrentTime()" class="btn-current">Use Current Time</button>
+
+                <div class="time-result">
+                    <label>Result:</label>
+                    <div id="time-result-display">Select a start time and add/subtract time units</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="calculator.js"></script>
+</body>
+</html>
