@@ -3,6 +3,7 @@ let currentValue = '0';
 let previousValue = '';
 let operation = '';
 let shouldResetDisplay = false;
+let calculationHistory = [];
 
 // Tab Switching
 function switchTab(tabName) {
@@ -27,6 +28,21 @@ function switchTab(tabName) {
 function updateDisplay() {
     const display = document.getElementById('display');
     display.value = currentValue;
+}
+
+function updateHistory() {
+    const historyLog = document.getElementById('history-log');
+    historyLog.innerHTML = '';
+
+    calculationHistory.forEach(entry => {
+        const historyEntry = document.createElement('div');
+        historyEntry.className = 'history-entry';
+        historyEntry.textContent = entry;
+        historyLog.appendChild(historyEntry);
+    });
+
+    // Auto-scroll to bottom to show most recent
+    historyLog.scrollTop = historyLog.scrollHeight;
 }
 
 function appendNumber(num) {
@@ -84,7 +100,19 @@ function calculate() {
     }
 
     // Round to avoid floating point errors
-    currentValue = Math.round(result * 100000000) / 100000000 + '';
+    result = Math.round(result * 100000000) / 100000000;
+
+    // Format operator for display
+    let displayOp = operation;
+    if (operation === '*') displayOp = '×';
+    if (operation === '/') displayOp = '÷';
+
+    // Add to history
+    const historyEntry = `${previousValue} ${displayOp} ${currentValue} = ${result}`;
+    calculationHistory.push(historyEntry);
+    updateHistory();
+
+    currentValue = result + '';
     operation = '';
     previousValue = '';
     shouldResetDisplay = true;
@@ -96,7 +124,9 @@ function clearDisplay() {
     previousValue = '';
     operation = '';
     shouldResetDisplay = false;
+    calculationHistory = [];
     updateDisplay();
+    updateHistory();
 }
 
 function deleteLast() {

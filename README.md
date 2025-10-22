@@ -10,8 +10,10 @@ A modern, web-based calculator with two main features:
 - Addition, subtraction, multiplication, and division
 - Decimal number support
 - Keyboard support for quick calculations
-- Clear and delete functions
-- Clean, intuitive interface
+- **Calculation history log** - keeps track of all calculations with newest at bottom
+- Classic green/gray display with dark gray digits
+- Clear function clears both display and history
+- Delete function for correcting entries
 
 ### Time Calculator
 - Add or subtract time units using Earlier/Later buttons
@@ -26,8 +28,10 @@ A modern, web-based calculator with two main features:
 1. Open `index.html` in your web browser
 2. The calculator defaults to the "Basic Math" tab
 3. Click numbers and operators to perform calculations
-4. Press "=" to see the result
-5. Use "C" to clear or "⌫" to delete the last digit
+4. Press "=" to see the result - the calculation is logged in the history area
+5. Previous calculations appear in the history log (newest at bottom)
+6. Use "C" to clear both display and history
+7. Use "⌫" to delete the last digit
 
 **Keyboard Shortcuts:**
 - Numbers: 0-9

@@ -18,8 +18,11 @@
 
         <!-- Basic Calculator -->
         <div id="basic-calc" class="calculator-section active">
-            <div class="display">
-                <input type="text" id="display" readonly value="0">
+            <div class="calculator-display-container">
+                <div class="history-log" id="history-log"></div>
+                <div class="display">
+                    <input type="text" id="display" readonly value="0">
+                </div>
             </div>
             <div class="buttons">
                 <button onclick="clearDisplay()" class="btn-operator">C</button>
