@@ -5,29 +5,54 @@ let operation = '';
 let shouldResetDisplay = false;
 let calculationHistory = [];
 
-// Tab Switching
-function switchTab(tabName) {
-    const basicCalc = document.getElementById('basic-calc');
-    const timeCalc = document.getElementById('time-calc');
-    const tabButtons = document.querySelectorAll('.tab-button');
+// Unit conversion variables
+let currentUnit = null;
+let previousUnit = null;
 
-    if (tabName === 'basic') {
-        basicCalc.classList.add('active');
-        timeCalc.classList.remove('active');
-        tabButtons[0].classList.add('active');
-        tabButtons[1].classList.remove('active');
-    } else {
-        timeCalc.classList.add('active');
-        basicCalc.classList.remove('active');
-        tabButtons[1].classList.add('active');
-        tabButtons[0].classList.remove('active');
-    }
+// Unit conversion ratios (all in seconds as base)
+const unitConversions = {
+    seconds: 1,
+    minutes: 60,
+    hours: 3600,
+    days: 86400,
+    weeks: 604800,
+    months: 2592000 // 30 days
+};
+
+const unitLabels = {
+    seconds: 'sec',
+    minutes: 'min',
+    hours: 'hr',
+    days: 'day',
+    weeks: 'wk',
+    months: 'mo'
+};
+
+// Convert value from one unit to another
+function convertUnit(value, fromUnit, toUnit) {
+    if (!fromUnit || !toUnit) return value;
+
+    // Convert to seconds first
+    const inSeconds = value * unitConversions[fromUnit];
+    // Then convert to target unit
+    return inSeconds / unitConversions[toUnit];
 }
 
 // Basic Calculator Functions
 function updateDisplay() {
     const display = document.getElementById('display');
     display.value = currentValue;
+    updateUnitDisplay();
+}
+
+function updateUnitDisplay() {
+    const unitDisplay = document.getElementById('unit-display');
+    if (currentUnit) {
+        unitDisplay.textContent = unitLabels[currentUnit];
+        unitDisplay.style.display = 'block';
+    } else {
+        unitDisplay.style.display = 'none';
+    }
 }
 
 function updateHistory() {
@@ -66,6 +91,7 @@ function appendOperator(op) {
         calculate();
     }
     previousValue = currentValue;
+    previousUnit = currentUnit;
     operation = op;
     shouldResetDisplay = true;
 }
@@ -73,9 +99,14 @@ function appendOperator(op) {
 function calculate() {
     if (!operation || !previousValue) return;
 
-    const prev = parseFloat(previousValue);
-    const current = parseFloat(currentValue);
+    let prev = parseFloat(previousValue);
+    let current = parseFloat(currentValue);
     let result;
+
+    // If both values have units, convert current to previous unit
+    if (previousUnit && currentUnit && previousUnit !== currentUnit) {
+        current = convertUnit(current, currentUnit, previousUnit);
+    }
 
     switch (operation) {
         case '+':
@@ -107,14 +138,26 @@ function calculate() {
     if (operation === '*') displayOp = '×';
     if (operation === '/') displayOp = '÷';
 
-    // Add to history
-    const historyEntry = `${previousValue} ${displayOp} ${currentValue} = ${result}`;
+    // Add to history with units
+    let historyEntry;
+    if (previousUnit && currentUnit) {
+        const prevLabel = unitLabels[previousUnit];
+        const currLabel = unitLabels[currentUnit];
+        const resultLabel = unitLabels[previousUnit];
+        historyEntry = `${previousValue}${prevLabel} ${displayOp} ${currentValue}${currLabel} = ${result}${resultLabel}`;
+    } else {
+        historyEntry = `${previousValue} ${displayOp} ${currentValue} = ${result}`;
+    }
+
     calculationHistory.push(historyEntry);
     updateHistory();
 
     currentValue = result + '';
+    // Result keeps the unit of the first operand
+    currentUnit = previousUnit;
     operation = '';
     previousValue = '';
+    previousUnit = null;
     shouldResetDisplay = true;
     updateDisplay();
 }
@@ -125,6 +168,8 @@ function clearDisplay() {
     operation = '';
     shouldResetDisplay = false;
     calculationHistory = [];
+    currentUnit = null;
+    previousUnit = null;
     updateDisplay();
     updateHistory();
 }
@@ -138,11 +183,48 @@ function deleteLast() {
     updateDisplay();
 }
 
-// Keyboard support for basic calculator
-document.addEventListener('keydown', (e) => {
-    const basicCalc = document.getElementById('basic-calc');
-    if (!basicCalc.classList.contains('active')) return;
+// Unit menu functions
+function showUnitMenu() {
+    const menu = document.getElementById('unit-menu');
+    menu.classList.toggle('show');
+}
 
+function selectUnit(unit) {
+    const value = parseFloat(currentValue);
+
+    // If there's no operation pending, this is a conversion
+    if (!operation && currentUnit && currentUnit !== unit) {
+        const converted = convertUnit(value, currentUnit, unit);
+        currentValue = (Math.round(converted * 100000000) / 100000000) + '';
+
+        // Add to history
+        const fromLabel = unitLabels[currentUnit];
+        const toLabel = unitLabels[unit];
+        const historyEntry = `${value}${fromLabel} → ${currentValue}${toLabel}`;
+        calculationHistory.push(historyEntry);
+        updateHistory();
+    }
+
+    // Set the unit
+    currentUnit = unit;
+    updateDisplay();
+
+    // Hide menu
+    document.getElementById('unit-menu').classList.remove('show');
+}
+
+// Close unit menu when clicking outside
+document.addEventListener('click', (e) => {
+    const menu = document.getElementById('unit-menu');
+    const menuButton = document.querySelector('.btn-unit-menu');
+
+    if (!menu.contains(e.target) && e.target !== menuButton) {
+        menu.classList.remove('show');
+    }
+});
+
+// Keyboard support
+document.addEventListener('keydown', (e) => {
     if (e.key >= '0' && e.key <= '9') {
         appendNumber(e.key);
     } else if (e.key === '.') {
@@ -160,99 +242,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Time Calculator Functions
-function setCurrentTime() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-
-    const dateTimeString = `${year}-${month}-${day}T${hours}:${minutes}`;
-    document.getElementById('start-datetime').value = dateTimeString;
-}
-
-function adjustTime(direction) {
-    const startDatetime = document.getElementById('start-datetime').value;
-
-    if (!startDatetime) {
-        alert('Please select a start date and time');
-        return;
-    }
-
-    const value = parseInt(document.getElementById('time-value').value) || 1;
-    const unit = document.getElementById('time-unit').value;
-
-    const startDate = new Date(startDatetime);
-    const resultDate = new Date(startDate);
-
-    // Determine multiplier based on direction
-    const multiplier = direction === 'later' ? 1 : -1;
-    const adjustValue = value * multiplier;
-
-    // Adjust based on unit
-    switch (unit) {
-        case 'minutes':
-            resultDate.setMinutes(resultDate.getMinutes() + adjustValue);
-            break;
-        case 'hours':
-            resultDate.setHours(resultDate.getHours() + adjustValue);
-            break;
-        case 'days':
-            resultDate.setDate(resultDate.getDate() + adjustValue);
-            break;
-        case 'weeks':
-            resultDate.setDate(resultDate.getDate() + (adjustValue * 7));
-            break;
-        case 'months':
-            resultDate.setMonth(resultDate.getMonth() + adjustValue);
-            break;
-        case 'years':
-            resultDate.setFullYear(resultDate.getFullYear() + adjustValue);
-            break;
-    }
-
-    // Update the start datetime input with the new result
-    const year = resultDate.getFullYear();
-    const month = String(resultDate.getMonth() + 1).padStart(2, '0');
-    const day = String(resultDate.getDate()).padStart(2, '0');
-    const hours = String(resultDate.getHours()).padStart(2, '0');
-    const minutes = String(resultDate.getMinutes()).padStart(2, '0');
-    const dateTimeString = `${year}-${month}-${day}T${hours}:${minutes}`;
-    document.getElementById('start-datetime').value = dateTimeString;
-
-    // Format the result for display
-    const options = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    };
-
-    const formattedResult = resultDate.toLocaleString('en-US', options);
-
-    // Calculate differences from original
-    const diffMs = resultDate - startDate;
-    const absDiffMs = Math.abs(diffMs);
-    const diffDays = Math.floor(absDiffMs / (1000 * 60 * 60 * 24));
-    const diffHours = Math.floor((absDiffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const diffMinutes = Math.floor((absDiffMs % (1000 * 60 * 60)) / (1000 * 60));
-
-    const directionText = direction === 'later' ? '+' : '-';
-    const diffText = `(${directionText}${value} ${unit})`;
-
-    document.getElementById('time-result-display').innerHTML = `
-        <strong>${formattedResult}</strong>
-        <br>
-        <small>${diffText}</small>
-    `;
-}
-
 // Initialize
 window.onload = function() {
     updateDisplay();
-    setCurrentTime();
 };

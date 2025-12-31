@@ -1,8 +1,6 @@
 # Calculator App
 
-A modern, web-based calculator with two main features:
-- **Basic Math Calculator**: Standard arithmetic operations
-- **Time Calculator**: Add or subtract time units (days, hours, minutes)
+A modern, web-based calculator with basic arithmetic operations and unit conversion for time units (seconds, minutes, hours, days, weeks, months).
 
 ## Live Demo
 
@@ -19,23 +17,23 @@ Try it out here: [https://tulipandmills.github.io/Mycalc/](https://tulipandmills
 - Clear function clears both display and history
 - Delete function for correcting entries
 
-### Time Calculator
-- Add or subtract time units using Earlier/Later buttons
-- Flexible unit selection: minutes, hours, days, weeks, months, years
-- "Use Current Time" button for quick access to the current date/time
-- Simple value input with unit selector
-- Visual display of the calculated result
+### Unit Conversion
+- Support for time units: seconds, minutes, hours, days, weeks, months
+- **Unit assignment**: Click "🕐 Units" button and select a unit to assign it to the current value
+- **Unit conversion**: With a value and unit set, click Units and select a different unit to convert
+- **Unit-aware arithmetic**: Perform calculations with different units (e.g., 123 seconds + 2 minutes)
+- **Auto-conversion**: When adding/subtracting values with different units, they're automatically converted
+- Unit indicator shows in the top-left of the display
 
 ## How to Use
 
-### Basic Math Calculator
-1. Open `index.html` in your web browser
-2. The calculator defaults to the "Basic Math" tab
-3. Click numbers and operators to perform calculations
-4. Press "=" to see the result - the calculation is logged in the history area
-5. Previous calculations appear in the history log (newest at bottom)
-6. Use "C" to clear both display and history
-7. Use "⌫" to delete the last digit
+### Basic Calculator
+1. Open `index.html` in your web browser or visit the live demo
+2. Click numbers and operators to perform calculations
+3. Press "=" to see the result - the calculation is logged in the history area
+4. Previous calculations appear in the history log (newest at bottom)
+5. Use "C" to clear both display and history
+6. Use "⌫" to delete the last digit
 
 **Keyboard Shortcuts:**
 - Numbers: 0-9
@@ -44,13 +42,26 @@ Try it out here: [https://tulipandmills.github.io/Mycalc/](https://tulipandmills
 - Clear: Escape or C
 - Delete: Backspace
 
-### Time Calculator
-1. Switch to the "Time Calculator" tab
-2. Click "Use Current Time" or manually select a start date and time
-3. Enter a value and select a unit (minutes, hours, days, weeks, months, years)
-4. Click "Later" to add time or "Earlier" to subtract time
-5. The result shows the new date/time and updates the start time
-6. You can continue clicking Earlier/Later to keep adjusting
+### Unit Conversion
+
+**Assigning a Unit:**
+1. Enter a number (e.g., 123)
+2. Click the "🕐 Units" button
+3. Select a unit from the menu (e.g., "sec" for seconds)
+4. The unit label appears in the display
+
+**Converting Between Units:**
+1. Enter a value with a unit (e.g., 120 seconds)
+2. Click "🕐 Units" and select a different unit (e.g., "min")
+3. The value converts automatically (120 sec → 2 min)
+4. Conversion is logged in history
+
+**Arithmetic with Units:**
+1. Enter a value and assign a unit (e.g., 123 seconds)
+2. Click an operator (e.g., +)
+3. Enter another value and assign a different unit (e.g., 2 minutes)
+4. Press "=" to calculate
+5. Result is shown in the first unit (e.g., 123sec + 2min = 243sec)
 
 ## Examples
 
@@ -59,24 +70,28 @@ Try it out here: [https://tulipandmills.github.io/Mycalc/](https://tulipandmills
 - 100 / 4 = 25
 - 3.14 * 2 = 6.28
 
-**Time Calculations:**
-- Current time + 1 day (Later) = Tomorrow at the same time
-- January 1, 2025 10:00 AM + 5 days (Later) = January 6, 2025 10:00 AM
-- January 1, 2025 + 2 weeks (Later) = January 15, 2025
-- Meeting at 2:00 PM - 45 minutes (Earlier) = 1:15 PM
-- Current date + 6 months (Later) = Six months from now
+**Unit Conversions:**
+- 120sec → 2min
+- 2hr → 120min
+- 1wk → 7day
+
+**Unit Arithmetic:**
+- 30sec + 2min = 150sec
+- 1hr + 30min = 90min
+- 2day - 12hr = 36hr
 
 ## Technical Details
 
 - Built with vanilla HTML, CSS, and JavaScript
 - No dependencies or frameworks required
-- Fully responsive design
+- Fully responsive design (works on all screen sizes)
 - Works in all modern web browsers
+- Unit conversions use seconds as base unit for accuracy
 
 ## Files
 
 - `index.html` - Main HTML structure
-- `calculator.js` - Calculator logic and functionality
+- `calculator.js` - Calculator logic and unit conversion functionality
 - `styles.css` - Styling and layout
 - `README.md` - This file
 
