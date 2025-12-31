@@ -1,3 +1,6 @@
+// Script loaded confirmation
+console.log('Calculator.js loaded successfully');
+
 // Basic Calculator Variables
 let currentValue = '0';
 let previousValue = '';
@@ -262,6 +265,7 @@ function deleteLast() {
 
 // Unit menu functions
 function showUnitMenu() {
+    console.log('showUnitMenu called!');
     const modal = document.getElementById('unit-modal');
     if (modal) {
         modal.classList.add('show');
@@ -272,12 +276,17 @@ function showUnitMenu() {
 }
 
 function closeUnitMenu() {
+    console.log('closeUnitMenu called!');
     const modal = document.getElementById('unit-modal');
     if (modal) {
         modal.classList.remove('show');
         console.log('Modal closed');
     }
 }
+
+// Make functions globally accessible for onclick handlers
+window.showUnitMenu = showUnitMenu;
+window.closeUnitMenu = closeUnitMenu;
 
 function selectUnit(unit) {
     const value = parseFloat(currentValue);
