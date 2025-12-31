@@ -290,10 +290,19 @@ function useDatetime() {
     const date = new Date(datetimeValue);
     const epochSeconds = Math.floor(date.getTime() / 1000);
 
-    currentValue = epochSeconds + '';
-    isEpoch = true;
-    currentUnit = 'seconds'; // Epoch is in seconds
-    shouldResetDisplay = false;
+    // If we're resetting display (after an operator), treat this as the new operand
+    if (shouldResetDisplay) {
+        currentValue = epochSeconds + '';
+        isEpoch = true;
+        currentUnit = 'seconds';
+        shouldResetDisplay = false;
+    } else {
+        // Not in operation mode - just set the value
+        currentValue = epochSeconds + '';
+        isEpoch = true;
+        currentUnit = 'seconds';
+    }
+
     updateDisplay();
 
     // Add to history
@@ -311,10 +320,19 @@ function useNow() {
     const now = new Date();
     const epochSeconds = Math.floor(now.getTime() / 1000);
 
-    currentValue = epochSeconds + '';
-    isEpoch = true;
-    currentUnit = 'seconds';
-    shouldResetDisplay = false;
+    // If we're resetting display (after an operator), treat this as the new operand
+    if (shouldResetDisplay) {
+        currentValue = epochSeconds + '';
+        isEpoch = true;
+        currentUnit = 'seconds';
+        shouldResetDisplay = false;
+    } else {
+        // Not in operation mode - just set the value
+        currentValue = epochSeconds + '';
+        isEpoch = true;
+        currentUnit = 'seconds';
+    }
+
     updateDisplay();
 
     // Add to history
