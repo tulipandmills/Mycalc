@@ -288,6 +288,36 @@ button:active {
     transform: translateY(0);
 }
 
+/* Refresh Button */
+.refresh-container {
+    margin-top: 20px;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.btn-refresh {
+    background: transparent;
+    border: none;
+    color: #999;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px 12px;
+    opacity: 0.3;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+}
+
+.btn-refresh:hover {
+    opacity: 0.8;
+    color: #667eea;
+    transform: rotate(180deg);
+    box-shadow: none;
+}
+
+.btn-refresh:active {
+    transform: rotate(180deg) scale(0.9);
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
     body {

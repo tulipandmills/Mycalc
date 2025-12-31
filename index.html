@@ -2,8 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator with Unit Conversion</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Calculator</title>
+
+    <!-- iOS Web App -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Calculator">
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -66,6 +72,11 @@
             <button onclick="selectUnit('weeks')" class="btn-unit">wk</button>
             <button onclick="selectUnit('months')" class="btn-unit">mo</button>
             <button onclick="selectUnit('years')" class="btn-unit">yr</button>
+        </div>
+
+        <!-- Subtle Refresh Button -->
+        <div class="refresh-container">
+            <button onclick="refreshCalculator()" class="btn-refresh" title="Reset Calculator">⟳</button>
         </div>
     </div>
 

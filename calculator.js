@@ -96,6 +96,30 @@ function updateHistory() {
 
     // Auto-scroll to bottom to show most recent
     historyLog.scrollTop = historyLog.scrollHeight;
+
+    // Save to localStorage
+    saveToStorage();
+}
+
+// localStorage functions
+function saveToStorage() {
+    try {
+        localStorage.setItem('calcHistory', JSON.stringify(calculationHistory));
+    } catch (e) {
+        console.error('Failed to save to localStorage:', e);
+    }
+}
+
+function loadFromStorage() {
+    try {
+        const saved = localStorage.getItem('calcHistory');
+        if (saved) {
+            calculationHistory = JSON.parse(saved);
+            updateHistory();
+        }
+    } catch (e) {
+        console.error('Failed to load from localStorage:', e);
+    }
 }
 
 function appendNumber(num) {
@@ -333,7 +357,16 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// Refresh function
+function refreshCalculator() {
+    if (confirm('Clear all history and reset calculator?')) {
+        localStorage.removeItem('calcHistory');
+        location.reload();
+    }
+}
+
 // Initialize
 window.onload = function() {
+    loadFromStorage();
     updateDisplay();
 };
