@@ -21,6 +21,7 @@
             <div class="history-log" id="history-log"></div>
             <div class="display">
                 <div class="unit-display" id="unit-display"></div>
+                <div class="operator-display" id="operator-display"></div>
                 <div class="datetime-display" id="datetime-display"></div>
                 <input type="text" id="display" readonly value="0">
             </div>
@@ -63,20 +64,28 @@
             <button onclick="showUnitMenu()" class="btn-unit-menu">🕐 Units</button>
         </div>
 
-        <!-- Unit Selection Menu (hidden by default) -->
-        <div id="unit-menu" class="unit-menu">
-            <button onclick="selectUnit('seconds')" class="btn-unit">sec</button>
-            <button onclick="selectUnit('minutes')" class="btn-unit">min</button>
-            <button onclick="selectUnit('hours')" class="btn-unit">hr</button>
-            <button onclick="selectUnit('days')" class="btn-unit">day</button>
-            <button onclick="selectUnit('weeks')" class="btn-unit">wk</button>
-            <button onclick="selectUnit('months')" class="btn-unit">mo</button>
-            <button onclick="selectUnit('years')" class="btn-unit">yr</button>
-        </div>
-
         <!-- Subtle Refresh Button -->
         <div class="refresh-container">
             <button onclick="refreshCalculator()" class="btn-refresh" title="Reset Calculator">⟳</button>
+        </div>
+    </div>
+
+    <!-- Unit Selection Popup (Modal) -->
+    <div id="unit-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Select Unit</h3>
+                <button onclick="closeUnitMenu()" class="modal-close">×</button>
+            </div>
+            <div class="unit-grid">
+                <button onclick="selectUnit('seconds')" class="btn-unit">sec</button>
+                <button onclick="selectUnit('minutes')" class="btn-unit">min</button>
+                <button onclick="selectUnit('hours')" class="btn-unit">hr</button>
+                <button onclick="selectUnit('days')" class="btn-unit">day</button>
+                <button onclick="selectUnit('weeks')" class="btn-unit">wk</button>
+                <button onclick="selectUnit('months')" class="btn-unit">mo</button>
+                <button onclick="selectUnit('years')" class="btn-unit">yr</button>
+            </div>
         </div>
     </div>
 

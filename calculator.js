@@ -49,6 +49,7 @@ function updateDisplay() {
     const display = document.getElementById('display');
     display.value = currentValue;
     updateUnitDisplay();
+    updateOperatorDisplay();
     updateDatetimeDisplay();
 }
 
@@ -59,6 +60,19 @@ function updateUnitDisplay() {
         unitDisplay.style.display = 'block';
     } else {
         unitDisplay.style.display = 'none';
+    }
+}
+
+function updateOperatorDisplay() {
+    const operatorDisplay = document.getElementById('operator-display');
+    if (operation) {
+        let displayOp = operation;
+        if (operation === '*') displayOp = '×';
+        if (operation === '/') displayOp = '÷';
+        operatorDisplay.textContent = displayOp;
+        operatorDisplay.style.display = 'block';
+    } else {
+        operatorDisplay.style.display = 'none';
     }
 }
 
@@ -248,8 +262,13 @@ function deleteLast() {
 
 // Unit menu functions
 function showUnitMenu() {
-    const menu = document.getElementById('unit-menu');
-    menu.classList.toggle('show');
+    const modal = document.getElementById('unit-modal');
+    modal.classList.add('show');
+}
+
+function closeUnitMenu() {
+    const modal = document.getElementById('unit-modal');
+    modal.classList.remove('show');
 }
 
 function selectUnit(unit) {
@@ -272,8 +291,8 @@ function selectUnit(unit) {
     currentUnit = unit;
     updateDisplay();
 
-    // Hide menu
-    document.getElementById('unit-menu').classList.remove('show');
+    // Hide modal
+    closeUnitMenu();
 }
 
 // DateTime functions
@@ -346,13 +365,11 @@ function useNow() {
     updateHistory();
 }
 
-// Close unit menu when clicking outside
+// Close modal when clicking outside
 document.addEventListener('click', (e) => {
-    const menu = document.getElementById('unit-menu');
-    const menuButton = document.querySelector('.btn-unit-menu');
-
-    if (!menu.contains(e.target) && e.target !== menuButton) {
-        menu.classList.remove('show');
+    const modal = document.getElementById('unit-modal');
+    if (e.target === modal) {
+        closeUnitMenu();
     }
 });
 
