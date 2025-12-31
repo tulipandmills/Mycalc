@@ -263,12 +263,20 @@ function deleteLast() {
 // Unit menu functions
 function showUnitMenu() {
     const modal = document.getElementById('unit-modal');
-    modal.classList.add('show');
+    if (modal) {
+        modal.classList.add('show');
+        console.log('Modal opened, classes:', modal.className);
+    } else {
+        console.error('Modal element not found!');
+    }
 }
 
 function closeUnitMenu() {
     const modal = document.getElementById('unit-modal');
-    modal.classList.remove('show');
+    if (modal) {
+        modal.classList.remove('show');
+        console.log('Modal closed');
+    }
 }
 
 function selectUnit(unit) {
