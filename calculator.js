@@ -9,6 +9,10 @@ let calculationHistory = [];
 let currentUnit = null;
 let previousUnit = null;
 
+// Epoch tracking
+let isEpoch = false;
+let previousIsEpoch = false;
+
 // Unit conversion ratios (all in seconds as base)
 const unitConversions = {
     seconds: 1,
@@ -16,7 +20,8 @@ const unitConversions = {
     hours: 3600,
     days: 86400,
     weeks: 604800,
-    months: 2592000 // 30 days
+    months: 2592000, // 30 days
+    years: 31536000 // 365 days
 };
 
 const unitLabels = {
@@ -25,7 +30,8 @@ const unitLabels = {
     hours: 'hr',
     days: 'day',
     weeks: 'wk',
-    months: 'mo'
+    months: 'mo',
+    years: 'yr'
 };
 
 // Convert value from one unit to another
@@ -43,6 +49,7 @@ function updateDisplay() {
     const display = document.getElementById('display');
     display.value = currentValue;
     updateUnitDisplay();
+    updateDatetimeDisplay();
 }
 
 function updateUnitDisplay() {
@@ -52,6 +59,27 @@ function updateUnitDisplay() {
         unitDisplay.style.display = 'block';
     } else {
         unitDisplay.style.display = 'none';
+    }
+}
+
+function updateDatetimeDisplay() {
+    const datetimeDisplay = document.getElementById('datetime-display');
+    if (isEpoch && currentValue !== '0') {
+        const epochValue = parseFloat(currentValue);
+        const date = new Date(epochValue * 1000); // Convert seconds to milliseconds
+        const formatted = date.toLocaleString('en-US', {
+            weekday: 'short',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+        datetimeDisplay.textContent = formatted;
+        datetimeDisplay.style.display = 'block';
+    } else {
+        datetimeDisplay.style.display = 'none';
     }
 }
 
@@ -92,6 +120,7 @@ function appendOperator(op) {
     }
     previousValue = currentValue;
     previousUnit = currentUnit;
+    previousIsEpoch = isEpoch;
     operation = op;
     shouldResetDisplay = true;
 }
@@ -145,6 +174,12 @@ function calculate() {
         const currLabel = unitLabels[currentUnit];
         const resultLabel = unitLabels[previousUnit];
         historyEntry = `${previousValue}${prevLabel} ${displayOp} ${currentValue}${currLabel} = ${result}${resultLabel}`;
+    } else if (previousIsEpoch || isEpoch) {
+        // Format datetime history
+        const prevDate = previousIsEpoch ? new Date(parseFloat(previousValue) * 1000).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : previousValue;
+        const currDate = isEpoch ? new Date(parseFloat(currentValue) * 1000).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : currentValue;
+        const resultDate = new Date(result * 1000).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        historyEntry = `${prevDate} ${displayOp} ${currDate} = ${resultDate}`;
     } else {
         historyEntry = `${previousValue} ${displayOp} ${currentValue} = ${result}`;
     }
@@ -153,11 +188,13 @@ function calculate() {
     updateHistory();
 
     currentValue = result + '';
-    // Result keeps the unit of the first operand
+    // Result keeps the unit and epoch status of the first operand
     currentUnit = previousUnit;
+    isEpoch = previousIsEpoch;
     operation = '';
     previousValue = '';
     previousUnit = null;
+    previousIsEpoch = false;
     shouldResetDisplay = true;
     updateDisplay();
 }
@@ -170,6 +207,8 @@ function clearDisplay() {
     calculationHistory = [];
     currentUnit = null;
     previousUnit = null;
+    isEpoch = false;
+    previousIsEpoch = false;
     updateDisplay();
     updateHistory();
 }
@@ -211,6 +250,58 @@ function selectUnit(unit) {
 
     // Hide menu
     document.getElementById('unit-menu').classList.remove('show');
+}
+
+// DateTime functions
+function useDatetime() {
+    const datetimeInput = document.getElementById('datetime-input');
+    const datetimeValue = datetimeInput.value;
+
+    if (!datetimeValue) {
+        alert('Please select a date and time');
+        return;
+    }
+
+    // Convert datetime to epoch seconds
+    const date = new Date(datetimeValue);
+    const epochSeconds = Math.floor(date.getTime() / 1000);
+
+    currentValue = epochSeconds + '';
+    isEpoch = true;
+    currentUnit = 'seconds'; // Epoch is in seconds
+    shouldResetDisplay = false;
+    updateDisplay();
+
+    // Add to history
+    const formatted = date.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    calculationHistory.push(`${formatted} → ${epochSeconds} (epoch)`);
+    updateHistory();
+}
+
+function useNow() {
+    const now = new Date();
+    const epochSeconds = Math.floor(now.getTime() / 1000);
+
+    currentValue = epochSeconds + '';
+    isEpoch = true;
+    currentUnit = 'seconds';
+    shouldResetDisplay = false;
+    updateDisplay();
+
+    // Add to history
+    const formatted = now.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    calculationHistory.push(`Now: ${formatted} → ${epochSeconds} (epoch)`);
+    updateHistory();
 }
 
 // Close unit menu when clicking outside

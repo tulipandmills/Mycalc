@@ -15,9 +15,18 @@
             <div class="history-log" id="history-log"></div>
             <div class="display">
                 <div class="unit-display" id="unit-display"></div>
+                <div class="datetime-display" id="datetime-display"></div>
                 <input type="text" id="display" readonly value="0">
             </div>
         </div>
+
+        <!-- DateTime Input -->
+        <div class="datetime-input-section">
+            <input type="datetime-local" id="datetime-input" placeholder="Select date/time">
+            <button onclick="useDatetime()" class="btn-datetime">Use DateTime</button>
+            <button onclick="useNow()" class="btn-now">Now</button>
+        </div>
+
         <div class="buttons">
             <button onclick="clearDisplay()" class="btn-operator">C</button>
             <button onclick="deleteLast()" class="btn-operator">⌫</button>
@@ -56,6 +65,7 @@
             <button onclick="selectUnit('days')" class="btn-unit">day</button>
             <button onclick="selectUnit('weeks')" class="btn-unit">wk</button>
             <button onclick="selectUnit('months')" class="btn-unit">mo</button>
+            <button onclick="selectUnit('years')" class="btn-unit">yr</button>
         </div>
     </div>
 
