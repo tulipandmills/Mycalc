@@ -154,7 +154,8 @@ h1 {
 }
 
 .btn-datetime,
-.btn-now {
+.btn-now,
+.btn-convert {
     padding: 10px 15px;
     font-size: 14px;
     border-radius: 8px;
@@ -183,6 +184,17 @@ h1 {
 
 .btn-now:hover {
     background: #138496;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-convert {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-convert:hover {
+    background: #5a6268;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -489,7 +501,8 @@ button:active {
     }
 
     .btn-datetime,
-    .btn-now {
+    .btn-now,
+    .btn-convert {
         padding: 10px;
         font-size: 13px;
     }
@@ -568,7 +581,8 @@ button:active {
     }
 
     .btn-datetime,
-    .btn-now {
+    .btn-now,
+    .btn-convert {
         padding: 8px;
         font-size: 12px;
     }

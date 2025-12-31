@@ -382,6 +382,61 @@ function useNow() {
     updateHistory();
 }
 
+function toEpoch() {
+    // Convert current value to epoch mode (just show the epoch number)
+    if (currentValue === '0' || currentValue === '') {
+        alert('Please enter a value first');
+        return;
+    }
+
+    // Ensure the value is treated as epoch seconds
+    isEpoch = true;
+    currentUnit = 'seconds';
+    updateDisplay();
+
+    calculationHistory.push(`Converted to epoch: ${currentValue}`);
+    updateHistory();
+}
+
+function toDatetime() {
+    // Display the current epoch value as formatted datetime in the main display
+    if (currentValue === '0' || currentValue === '') {
+        alert('Please enter an epoch value first');
+        return;
+    }
+
+    const epochValue = parseFloat(currentValue);
+    if (isNaN(epochValue)) {
+        alert('Current value is not a valid number');
+        return;
+    }
+
+    // Format the epoch as datetime and show it in the main display
+    const date = new Date(epochValue * 1000);
+    const formatted = date.toLocaleString('en-US', {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+
+    // Store original epoch value and switch display
+    currentValue = formatted;
+    isEpoch = false; // Turn off epoch mode so we don't show the datetime display
+    currentUnit = null;
+    updateDisplay();
+
+    calculationHistory.push(`Formatted as datetime: ${formatted}`);
+    updateHistory();
+}
+
+// Make functions globally accessible
+window.toEpoch = toEpoch;
+window.toDatetime = toDatetime;
+
 // Close modal when clicking outside
 document.addEventListener('click', (e) => {
     const modal = document.getElementById('unit-modal');
