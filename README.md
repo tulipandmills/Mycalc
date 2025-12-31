@@ -4,6 +4,10 @@ A modern, web-based calculator with two main features:
 - **Basic Math Calculator**: Standard arithmetic operations
 - **Time Calculator**: Add or subtract time units (days, hours, minutes)
 
+## Live Demo
+
+Try it out here: [https://tulipandmills.github.io/Mycalc/](https://tulipandmills.github.io/Mycalc/)
+
 ## Features
 
 ### Basic Math Calculator
