@@ -408,6 +408,195 @@ button:active {
     transform: rotate(180deg) scale(0.9);
 }
 
+/* ===== Tabs ===== */
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.tab {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #f0f0f0;
+    color: #666;
+    transition: all 0.2s ease;
+}
+
+.tab:hover {
+    background: #e2e2e2;
+    transform: none;
+    box-shadow: none;
+}
+
+.tab.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* ===== Section Toggle ===== */
+.section-hidden {
+    display: none;
+}
+
+/* ===== Conversation Cards ===== */
+.card-wrapper {
+    perspective: 1200px;
+    width: 100%;
+    height: 260px;
+    margin-bottom: 18px;
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+    cursor: pointer;
+    border-radius: 22px;
+}
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 24px;
+    color: white;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+/* Card Front */
+.card-emoji {
+    font-size: 44px;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.card-question {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.45;
+    max-width: 90%;
+}
+
+.card-tap {
+    position: absolute;
+    bottom: 16px;
+    font-size: 12px;
+    opacity: 0.75;
+    font-style: italic;
+    animation: pulse-tap 2s ease-in-out infinite;
+}
+
+@keyframes pulse-tap {
+    0%, 100% { opacity: 0.75; }
+    50%      { opacity: 0.4; }
+}
+
+/* Card Back */
+.card-back-emoji {
+    font-size: 34px;
+    margin-bottom: 8px;
+}
+
+.card-hint {
+    font-size: 16px;
+    text-align: center;
+    line-height: 1.5;
+    max-width: 90%;
+    opacity: 0.95;
+}
+
+/* Card Navigation */
+.card-counter {
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+}
+
+.card-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+}
+
+.btn-nav {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    line-height: 1;
+}
+
+.btn-arrow {
+    background: #f0f0f0;
+    color: #444;
+}
+
+.btn-arrow:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: scale(1.12);
+    box-shadow: 0 4px 14px rgba(102, 126, 234, 0.35);
+}
+
+.btn-shuffle {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 18px;
+}
+
+.btn-shuffle:hover {
+    transform: scale(1.12) rotate(180deg);
+    box-shadow: 0 4px 14px rgba(102, 126, 234, 0.35);
+}
+
+/* Card entrance pop */
+@keyframes card-pop {
+    0%   { transform: scale(0.92); opacity: 0.6; }
+    60%  { transform: scale(1.03); }
+    100% { transform: scale(1);    opacity: 1; }
+}
+
+.card-pop {
+    animation: card-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
     body {
@@ -506,6 +695,25 @@ button:active {
         padding: 10px;
         font-size: 13px;
     }
+
+    /* Cards responsive 600px */
+    .card-wrapper {
+        height: 230px;
+    }
+
+    .card-question {
+        font-size: 16px;
+    }
+
+    .card-emoji {
+        font-size: 38px;
+    }
+
+    .btn-nav {
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+    }
 }
 
 @media (max-width: 360px) {
@@ -585,5 +793,34 @@ button:active {
     .btn-convert {
         padding: 8px;
         font-size: 12px;
+    }
+
+    /* Cards responsive 360px */
+    .card-wrapper {
+        height: 210px;
+    }
+
+    .card-question {
+        font-size: 15px;
+    }
+
+    .card-emoji {
+        font-size: 34px;
+        margin-bottom: 6px;
+    }
+
+    .card-hint {
+        font-size: 14px;
+    }
+
+    .btn-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+
+    .tab {
+        font-size: 14px;
+        padding: 9px 8px;
     }
 }

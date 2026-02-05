@@ -437,6 +437,267 @@ function toDatetime() {
 window.toEpoch = toEpoch;
 window.toDatetime = toDatetime;
 
+// ===== Conversation Cards =====
+const cardGradients = [
+    ['#667eea', '#764ba2'],
+    ['#f093fb', '#f5576c'],
+    ['#4facfe', '#00f2fe'],
+    ['#43e97b', '#38f9d7'],
+    ['#fa709a', '#fee140'],
+    ['#a18cd1', '#fbc2eb'],
+    ['#fcb69f', '#ffecd2'],
+    ['#89f7fe', '#66a6ff'],
+    ['#fddb92', '#d1fdff'],
+    ['#a1c4fd', '#c2e9fb']
+];
+
+const conversationCards = [
+    {
+        emoji: '🐾',
+        question: 'Als je een dier kon zijn voor een dag, welk dier kies je en waarom?',
+        hint: 'De sloth wint altijd — 20 uur slapen is het ideale levensprogramma.'
+    },
+    {
+        emoji: '😱',
+        question: 'Wat is het domme ding dat je ooit gedaan hebt?',
+        hint: 'We wedden dat het iets met een microwave te maken heeft.'
+    },
+    {
+        emoji: '💰',
+        question: 'Als je oneindig veel geld had, wat koop je als eerste?',
+        hint: 'Een eigen frikadellen-fabriek is altijd een slimme investering.'
+    },
+    {
+        emoji: '🎬',
+        question: 'In welke film zou je graag een hoofdrol willen spelen?',
+        hint: 'Niet Titanic… tenzij je een geweldig zwimmer bent.'
+    },
+    {
+        emoji: '🦸',
+        question: 'Als je een superkracht kon hebben, welke kies je?',
+        hint: 'Onzichtbaarheid voor de wachtrij bij de supermarkt — ultiem nuttig.'
+    },
+    {
+        emoji: '🧀',
+        question: 'Wat is je meest absurde gewoonte?',
+        hint: 'Kaas eten om 2 uur \'s nachts telt altijd mee.'
+    },
+    {
+        emoji: '⭐',
+        question: 'Als je een beroemde persoon kon zijn voor een dag, wie kies je?',
+        hint: 'Jeff Bezos — maar alleen om dat pakje te bestellen dat je al 3 dagen wacht op.'
+    },
+    {
+        emoji: '😴',
+        question: 'Wat is de gekste droom die je ooit gehad hebt?',
+        hint: 'Als er geen vliegende kussens bij zitten, telt het niet mee.'
+    },
+    {
+        emoji: '👶',
+        question: 'Welke rare regel moest je als kind volgen die nergens op kloote?',
+        hint: '"Niet rennen in huis" — ik ken geen enkel huis waar dit ooit is uitgevoerd.'
+    },
+    {
+        emoji: '🌍',
+        question: 'Als de wereld morgen eindigt, wat doe je vandaag?',
+        hint: 'Eindelijk die taart eten zonder een grammetje schuldgevoel.'
+    },
+    {
+        emoji: '👨‍👩‍👧',
+        question: 'Welke eigenschap heeft je familie die je nooit kwijt wordt?',
+        hint: 'Dramatisch seinen bij het parken van de auto — universaal.'
+    },
+    {
+        emoji: '😬',
+        question: 'Wat is je meest pijnlijke herindering als kind?',
+        hint: 'Tante die je voor de hele familie snapshots toont van je bad-foto\'s.'
+    },
+    {
+        emoji: '🗺️',
+        question: 'Als je een nieuw land kon uitvinden, hoe zou je het noemen?',
+        hint: '"Het Koninkrijk van Geen-Maandagen" is nog steeds beschikbaar.'
+    },
+    {
+        emoji: '📱',
+        question: 'Welke app zou je nooit meer kunnen missen?',
+        hint: 'Google Maps — zonder ben je letterlijk verloren in de wereld.'
+    },
+    {
+        emoji: '🍕',
+        question: 'Wat is je meest onlogische lekkerste combinatie?',
+        hint: 'Kaas op een koekje met jam is nog maar het begin van de ellende.'
+    },
+    {
+        emoji: '✨',
+        question: 'Als je een talent kon magisch krijgen, welke kies je?',
+        hint: 'Perfect bitterballen bakken. Sérieux. Game over voor elk feest.'
+    },
+    {
+        emoji: '🎨',
+        question: 'Wat is je meest onverwachte hobby?',
+        hint: 'Etiketten lezen in de supermarkt telt spijtig genoeg niet mee.'
+    },
+    {
+        emoji: '🏛️',
+        question: 'Als je een museum kon oprichten, wat zou het over gaan?',
+        hint: 'Het Museum van Verloren Sokken — hyper-realistische tentoonstellingen.'
+    },
+    {
+        emoji: '🤞',
+        question: 'Wat is de meest lege belofte die je ooit gedaan hebt?',
+        hint: '"Ik check maar even snel…" duur gemiddeld 47 minuten.'
+    },
+    {
+        emoji: '🤫',
+        question: 'Welke vreemd gewoonte hebt je die niemand mag weten?',
+        hint: 'Teken dit niet op — maar dit antwoord wordt opgeslagen.'
+    },
+    {
+        emoji: '🎮',
+        question: 'Als je een nieuw spel mocht uitvinden, hoe zou het werken?',
+        hint: 'Wie het langst kan wachten zonder naar hun telefoon te kijken. Spoiler: niemand wint.'
+    },
+    {
+        emoji: '😭',
+        question: 'Waarover bent je onlogisch boos geworden?',
+        hint: 'De TV-remote die niet werkt op de eerste try — bewezen mythe.'
+    },
+    {
+        emoji: '📚',
+        question: 'Als je een beroemd boek mocht herschrijven, welk kies je?',
+        hint: 'Harry Potter, maar nu met betere kaas in de Hogwarts-kafeteria.'
+    },
+    {
+        emoji: '🛍️',
+        question: 'Was er een keer dat je iets kochts die heel useless was?',
+        hint: 'Een waffle-machine die nog nooit een waffle heeft gemaakt — klassiek.'
+    },
+    {
+        emoji: '🚀',
+        question: 'Als je morgen naar een andere planeet kon verhuizen, kies je welke?',
+        hint: 'Mars klinkt cool, maar er is geen stroopwafel te kopen. Deal-breaker.'
+    }
+];
+
+let currentCardIndex = 0;
+let isCardFlipped = false;
+let tapHintShown = false;
+
+function initCards() {
+    updateCard(false);
+}
+
+function updateCard(animate) {
+    const card = conversationCards[currentCardIndex];
+    const colors = cardGradients[currentCardIndex % cardGradients.length];
+    const gradient = `linear-gradient(135deg, ${colors[0]} 0%, ${colors[1]} 100%)`;
+    const gradientRev = `linear-gradient(135deg, ${colors[1]} 0%, ${colors[0]} 100%)`;
+
+    // If currently flipped, flip back first before swapping content
+    const cardEl = document.getElementById('conversation-card');
+    if (isCardFlipped) {
+        cardEl.classList.remove('flipped');
+        isCardFlipped = false;
+    }
+
+    // Small delay so flip-back animation plays before content swap
+    setTimeout(() => {
+        document.getElementById('card-emoji').textContent = card.emoji;
+        document.getElementById('card-question').textContent = card.question;
+        document.getElementById('card-hint').textContent = card.hint;
+        document.getElementById('card-counter').textContent = `${currentCardIndex + 1} / ${conversationCards.length}`;
+
+        // Apply card colours
+        document.getElementById('card-front').style.background = gradient;
+        document.getElementById('card-back').style.background = gradientRev;
+
+        // Pop animation
+        if (animate !== false) {
+            cardEl.classList.remove('card-pop');
+            void cardEl.offsetWidth; // force reflow
+            cardEl.classList.add('card-pop');
+        }
+    }, isCardFlipped ? 350 : 0);
+}
+
+function flipCard() {
+    const cardEl = document.getElementById('conversation-card');
+    cardEl.classList.toggle('flipped');
+    isCardFlipped = !isCardFlipped;
+
+    // Hide tap hint after first flip
+    if (!tapHintShown) {
+        tapHintShown = true;
+        document.getElementById('card-tap').style.display = 'none';
+    }
+}
+
+function nextCard() {
+    currentCardIndex = (currentCardIndex + 1) % conversationCards.length;
+    updateCard();
+}
+
+function prevCard() {
+    currentCardIndex = (currentCardIndex - 1 + conversationCards.length) % conversationCards.length;
+    updateCard();
+}
+
+function shuffleCards() {
+    // Fisher-Yates shuffle
+    for (let i = conversationCards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [conversationCards[i], conversationCards[j]] = [conversationCards[j], conversationCards[i]];
+    }
+    currentCardIndex = 0;
+    updateCard();
+}
+
+// ===== Tab switching =====
+function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+    if (tab === 'calculator') {
+        document.getElementById('tab-calc').classList.add('active');
+        document.getElementById('calculator-section').classList.remove('section-hidden');
+        document.getElementById('cards-section').classList.add('section-hidden');
+    } else {
+        document.getElementById('tab-cards').classList.add('active');
+        document.getElementById('calculator-section').classList.add('section-hidden');
+        document.getElementById('cards-section').classList.remove('section-hidden');
+        initCards();
+    }
+}
+
+// Make card + tab functions globally accessible
+window.switchTab    = switchTab;
+window.flipCard     = flipCard;
+window.nextCard     = nextCard;
+window.prevCard     = prevCard;
+window.shuffleCards = shuffleCards;
+
+// ===== Touch-swipe on cards (mobile) =====
+let swipeTouchStartX = 0;
+let swipeTouchStartY = 0;
+
+document.addEventListener('touchstart', (e) => {
+    const cardsSection = document.getElementById('cards-section');
+    if (!cardsSection || cardsSection.classList.contains('section-hidden')) return;
+    swipeTouchStartX = e.touches[0].clientX;
+    swipeTouchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.addEventListener('touchend', (e) => {
+    const cardsSection = document.getElementById('cards-section');
+    if (!cardsSection || cardsSection.classList.contains('section-hidden')) return;
+    const dx = swipeTouchStartX - e.changedTouches[0].clientX;
+    const dy = swipeTouchStartY - e.changedTouches[0].clientY;
+    // Only count horizontal swipes (ignore scrolling)
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 0) nextCard();
+        else prevCard();
+    }
+}, { passive: true });
+
 // Close modal when clicking outside
 document.addEventListener('click', (e) => {
     const modal = document.getElementById('unit-modal');

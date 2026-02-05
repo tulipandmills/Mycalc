@@ -14,7 +14,16 @@
 </head>
 <body>
     <div class="container">
-        <h1>Calculator</h1>
+        <h1>MyCalc</h1>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" id="tab-calc" onclick="switchTab('calculator')">🧮 Rekenmachine</button>
+            <button class="tab" id="tab-cards" onclick="switchTab('cards')">🃏 Kaarten</button>
+        </div>
+
+        <!-- Calculator Section -->
+        <div id="calculator-section">
 
         <!-- Calculator -->
         <div class="calculator-display-container">
@@ -70,6 +79,32 @@
         <div class="refresh-container">
             <button onclick="refreshCalculator()" class="btn-refresh" title="Reset Calculator">⟳</button>
         </div>
+
+        </div><!-- end calculator-section -->
+
+        <!-- Conversation Cards Section -->
+        <div id="cards-section" class="section-hidden">
+            <div class="card-wrapper">
+                <div class="card" id="conversation-card" onclick="flipCard()">
+                    <div class="card-front" id="card-front">
+                        <div class="card-emoji" id="card-emoji">🤔</div>
+                        <div class="card-question" id="card-question">Laadt...</div>
+                        <div class="card-tap" id="card-tap">👆 Tik om te omdraaien</div>
+                    </div>
+                    <div class="card-back" id="card-back">
+                        <div class="card-back-emoji">💡</div>
+                        <div class="card-hint" id="card-hint"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-counter" id="card-counter">1 / 25</div>
+            <div class="card-nav">
+                <button onclick="prevCard()" class="btn-nav btn-arrow">‹</button>
+                <button onclick="shuffleCards()" class="btn-nav btn-shuffle">🔀</button>
+                <button onclick="nextCard()" class="btn-nav btn-arrow">›</button>
+            </div>
+        </div><!-- end cards-section -->
+
     </div>
 
     <!-- Unit Selection Popup (Modal) -->
